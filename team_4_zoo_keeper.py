@@ -6,7 +6,8 @@ Team 4 — Zoo Keeper (Django mini project)
 # 0) COMMON BOOT-UP RECIPE
 # =============================
 # 1) Create project & app
-#    python -m venv .venv && source .venv/bin/activate
+#    python -m venv .venv 
+#    .venv/Scripts/activate
 #    pip install "django==5.0.*"
 #    django-admin startproject proj
 #    cd proj
