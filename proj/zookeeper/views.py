@@ -13,7 +13,7 @@ from .models import Animal
 # 1️⃣ List View — show only the logged-in user's animals, with filters
 class AnimalListView(LoginRequiredMixin, ListView):
     model = Animal
-    template_name = 'zookeeper/animal_list.html'
+    template_name = 'zookeeper/animals_list.html'
     context_object_name = 'animals'
 
     def get_queryset(self):
@@ -47,7 +47,7 @@ class AnimalCreateView(LoginRequiredMixin, CreateView):
     model = Animal
     fields = ['name', 'species', 'enclosure']
     template_name = 'zookeeper/animal_form.html'
-    success_url = reverse_lazy('animal_list')
+    success_url = reverse_lazy('animals_list')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -58,7 +58,7 @@ class AnimalUpdateView(LoginRequiredMixin, UpdateView):
     model = Animal
     fields = ['name', 'species', 'enclosure']
     template_name = 'zookeeper/animal_form.html'
-    success_url = reverse_lazy('animal_list')
+    success_url = reverse_lazy('animals_list')
 
     def get_queryset(self):
         return Animal.objects.filter(owner=self.request.user)
