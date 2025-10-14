@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ animal.name }}</h1>
+<p>Species: {{ animal.species }}</p>
+<p>Enclosure: {{ animal.enclosure }}</p>
+<p>Last fed: {{ animal.last_fed_at|default:"Never" }}</p>
+<form method="post" action="{% url 'animal_feed' animal.pk %}">
+    {% csrf_token %}
+    <button type="submit">Mark as fed</button>
+</form>
+<a href="{% url 'animal_update' animal.pk %}">Edit</a>
+<a href="{% url 'animal_delete' animal.pk %}">Delete</a> {% endblock %}

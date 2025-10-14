@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<h1>Animals</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Search by name">
+    <select name="species">
+            <option value="">All Species</option>
+            {% for species in species_list %}
+                <option value="{{ species.name }}">{{ species.name }}</option>
+            {% endfor %}
+        </select>
+    <input type="text" name="enclosure" placeholder="Filter by enclosure">
+    <button type="submit">Filter</button>
+</form>
+<ul>
+    {% for animal in animals %}
+    <li>
+        <a href="{% url 'Animal_detail' animal.pk %}">{{ animal.name }}</a> {% if not animal.last_fed_at or animal.last_fed_at|timeuntil
+        < "1 day" %} <span style="color: red;">Needs feeding!</span>
+            {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

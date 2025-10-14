@@ -66,7 +66,7 @@ class AnimalUpdateView(LoginRequiredMixin, UpdateView):
 
 class AnimalDeleteView(LoginRequiredMixin, DeleteView):
     model = Animal
-    template_name = 'zookeeper/animal_confirm_delete.html'
+    template_name = 'zookeeper/confirm_delete.html'
     success_url = reverse_lazy('animal_list')
 
     def get_queryset(self):
