@@ -1,3 +1,13 @@
 from django.contrib import admin
+from .models import Species, Animal
 
-# Register your models here.
+@admin.register(Species)
+class SpeciesAdmin(admin.ModelAdmin):
+    list_display = ("name", "diet")
+    search_fields = ("name",)
+
+@admin.register(Animal)
+class AnimalAdmin(admin.ModelAdmin):
+    list_display = ("name", "species", "enclosure", "owner", "last_fed_at", "created_at")
+    list_filter = ("species", "enclosure", "created_at")
+    search_fields = ("name",)
