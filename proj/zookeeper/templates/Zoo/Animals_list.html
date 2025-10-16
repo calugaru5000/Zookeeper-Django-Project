@@ -1,23 +1,27 @@
-<!-- zookeeper/templates/animals_list.html -->
-{% extends "base.html" %} {% block content %}
+ {% extends "Zoo/base.html" %} {% block content %}
 <h1>Animals</h1>
-<form method="get">
-    <input type="text" name="q" placeholder="Search by name">
-    <select name="species">
+<form method="get" class="filter-form">
+    <div class="form-group">
+        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}" class="form-control">
+    </div>
+    <div class="form-group">
+        <select name="species" class="form-control">
             <option value="">All Species</option>
             {% for species in species_list %}
-                <option value="{{ species.name }}">{{ species.name }}</option>
+                <option value="{{ species.id }}" {% if request.GET.species|stringformat:"s" == species.id|stringformat:"s" %}selected{% endif %}>{{ species.name }}</option>
             {% endfor %}
         </select>
-    <input type="text" name="enclosure" placeholder="Filter by enclosure">
-    <button type="submit">Filter</button>
+    </div>
+    <div class="form-group">
+        <input type="text" name="enclosure" placeholder="Filter by enclosure" value="{{ request.GET.enclosure }}" class="form-control">
+    </div>
+    <button type="submit" class="btn">Filter</button>
 </form>
 <ul>
     {% for animal in animals %}
     <li>
-        <a href="{% url 'Animal_detail' animal.pk %}">{{ animal.name }}</a> {% if not animal.last_fed_at or animal.last_fed_at|timeuntil
-        < "1 day" %} <span style="color: red;">Needs feeding!</span>
-            {% endif %}
+        <a href="{% url 'animal_detail' animal.pk %} ">{{ animal.name }}</a> {% if animal.needs_feeding %}
+        <span style="color: red; ">Needs feeding!</span> {% endif %}
     </li>
     {% endfor %}
 </ul>

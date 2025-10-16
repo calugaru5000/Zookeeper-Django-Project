@@ -1,0 +1,86 @@
+/* zookeeper/static/zookeeper/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.filter-form {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-group {
+    margin: 5px 10px;
+}
+
+.form-control {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #35424a;
+}
+
+select.form-control {
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+}
+
+.btn {
+    background-color: #35424a;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px 10px;
+}
+
+.btn:hover {
+    background-color: #576e7d;
+}
+
+.animal-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.animal-item {
+    background-color: white;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.animal-name {
+    color: #35424a;
+    text-decoration: none;
+}
+
+.animal-name:hover {
+    text-decoration: underline;
+}
+
+.needs-feeding {
+    color: red;
+    font-weight: bold;
+}

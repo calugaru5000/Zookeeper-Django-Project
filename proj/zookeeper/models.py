@@ -11,7 +11,7 @@ class Species(models.Model):
     name = models.CharField(max_length=100, unique=True)
     diet = models.CharField(max_length=20, choices=DIET_CHOICES)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.name} ({self.get_diet_display()})"
 
 
@@ -23,7 +23,7 @@ class Animal(models.Model):
     last_fed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.name
 
     @property
