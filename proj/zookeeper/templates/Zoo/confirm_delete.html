@@ -1,8 +1,11 @@
 {% extends "Zoo/base.html" %} {% block content %}
-<h1>Delete Animal</h1>
-<p>Are you sure you want to delete "{{ object.name }}"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
-</form>
-<a href="{% url 'animal_detail' object.pk %}">Cancel</a> {% endblock %}
+<div class="delete-container">
+    <h1 class="delete-title">Delete Animal</h1>
+    <p class="delete-message">Are you sure you want to delete "{{ object.name }}"?</p>
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-confirm-delete">Confirm Delete</button>
+    </form>
+    <a href="{% url 'animal_detail' object.pk %}" class="btn btn-cancel">Cancel</a>
+</div>
+{% endblock %}

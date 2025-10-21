@@ -8,6 +8,146 @@ body {
     color: #333;
 }
 
+
+/* Container for width control */
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar {
+    background-color: #555;
+    /* Gray color */
+    padding: 10px 0;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #d1d1d1;
+    text-decoration: underline;
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.btn-logout {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: white;
+    color: #555;
+}
+
+.nav-login {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-login:hover {
+    text-decoration: underline;
+}
+
+
+/* Main Content */
+
+.main-content {
+    padding: 20px 0;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    color: #35424a;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+select {
+    padding: 8px;
+    margin: 5px 5px 15px 0;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #35424a;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #576e7d;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: white;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul li a {
+    color: #35424a;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+.needs-feeding {
+    color: red;
+    font-weight: bold;
+}
+
 .filter-form {
     background-color: white;
     padding: 20px;
@@ -78,9 +218,4 @@ select.form-control {
 
 .animal-name:hover {
     text-decoration: underline;
-}
-
-.needs-feeding {
-    color: red;
-    font-weight: bold;
 }

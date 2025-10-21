@@ -1,11 +1,16 @@
 {% extends "Zoo/base.html" %} {% block content %}
-<h1>{{ animal.name }}</h1>
-<p>Species: {{ animal.species }}</p>
-<p>Enclosure: {{ animal.enclosure }}</p>
-<p>Last fed: {{ animal.last_fed_at|default:"Never" }}</p>
-<form method="post" action="{% url 'animal_feed' animal.pk %}">
-    {% csrf_token %}
-    <button type="submit">Mark as fed</button>
-</form>
-<a href="{% url 'animal_update' animal.pk %}">Edit</a>
-<a href="{% url 'animal_delete' animal.pk %}">Delete</a> {% endblock %}
+<div class="animal-detail">
+    <h1 class="animal-name">{{ animal.name }}</h1>
+    <p class="animal-info"><strong>Species:</strong> {{ animal.species }}</p>
+    <p class="animal-info"><strong>Enclosure:</strong> {{ animal.enclosure }}</p>
+    <p class="animal-info"><strong>Last fed:</strong> {{ animal.last_fed_at|default:"Never" }}</p>
+    <form method="post" action="{% url 'animal_feed' animal.pk %}" class="feed-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-feed">Mark as fed</button>
+    </form>
+    <div class="action-links">
+        <a href="{% url 'animal_update' animal.pk %}" class="btn btn-edit">Edit</a>
+        <a href="{% url 'animal_delete' animal.pk %}" class="btn btn-delete">Delete</a>
+    </div>
+</div>
+{% endblock %}

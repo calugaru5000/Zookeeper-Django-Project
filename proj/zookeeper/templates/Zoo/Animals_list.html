@@ -1,28 +1,30 @@
- {% extends "Zoo/base.html" %} {% block content %}
-<h1>Animals</h1>
-<form method="get" class="filter-form">
-    <div class="form-group">
-        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}" class="form-control">
-    </div>
-    <div class="form-group">
-        <select name="species" class="form-control">
-            <option value="">All Species</option>
-            {% for species in species_list %}
-                <option value="{{ species.id }}" {% if request.GET.species|stringformat:"s" == species.id|stringformat:"s" %}selected{% endif %}>{{ species.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <input type="text" name="enclosure" placeholder="Filter by enclosure" value="{{ request.GET.enclosure }}" class="form-control">
-    </div>
-    <button type="submit" class="btn">Filter</button>
-</form>
-<ul>
-    {% for animal in animals %}
-    <li>
-        <a href="{% url 'animal_detail' animal.pk %} ">{{ animal.name }}</a> {% if animal.needs_feeding %}
-        <span style="color: red; ">Needs feeding!</span> {% endif %}
-    </li>
-    {% endfor %}
-</ul>
+{% extends "Zoo/base.html" %} {% block content %}
+<div class="list-container">
+    <h1 class="list-title">Animals</h1>
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}" class="form-control">
+        </div>
+        <div class="form-group">
+            <select name="species" class="form-control">
+                    <option value="">All Species</option>
+                    {% for species in species_list %}
+                        <option value="{{ species.id }}" {% if request.GET.species|stringformat:"s" == species.id|stringformat:"s" %}selected{% endif %}>{{ species.name }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <input type="text" name="enclosure" placeholder="Filter by enclosure" value="{{ request.GET.enclosure }}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-filter">Filter</button>
+    </form>
+    <ul class="animal-list">
+        {% for animal in animals %}
+        <li class="animal-item">
+            <a href="{% url 'animal_detail' animal.pk %}" class="animal-link">{{ animal.name }}</a> {% if animal.needs_feeding %}
+            <span class="needs-feeding">Needs feeding!</span> {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
