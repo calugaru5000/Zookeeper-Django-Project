@@ -1,0 +1,57 @@
+{% extends 'Zoo/base.html' %}
+{% load static %}
+
+{% block content %}
+  <h1>Zoo Map</h1>
+  <p>Plan schematizat: trei cuști (stânga ierbivore, mijloc omnivore, dreapta carnivore).</p>
+
+  <div class="zoo-canvas" role="region" aria-label="Harta desenată a grădinii">
+    <div class="cage-grid">
+      <!-- Ierbivore -->
+      <section class="pen" aria-label="Zonă ierbivore">
+        <div class="pen-title">Ierbivore ({{ counts.herbivore }})</div>
+        <div class="pen-rect cage cage-herbivore">
+          <div class="cage-body">
+            {% for a in herbivores %}
+              <a class="animal-chip herbivore" href="{% url 'animal_detail' a.pk %}">
+                <span class="chip-name">{{ a.name }}</span>
+                <span class="chip-sub">{{ a.species.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <!-- Omnivore -->
+      <section class="pen" aria-label="Zonă omnivore">
+        <div class="pen-title">Omnivore ({{ counts.omnivore }})</div>
+        <div class="pen-rect cage cage-omnivore">
+          <div class="cage-body">
+            {% for a in omnivores %}
+              <a class="animal-chip omnivore" href="{% url 'animal_detail' a.pk %}">
+                <span class="chip-name">{{ a.name }}</span>
+                <span class="chip-sub">{{ a.species.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <!-- Carnivore -->
+      <section class="pen" aria-label="Zonă carnivore">
+        <div class="pen-title">Carnivore ({{ counts.carnivore }})</div>
+        <div class="pen-rect cage cage-carnivore">
+          <div class="cage-body">
+            {% for a in carnivores %}
+              <a class="animal-chip carnivore" href="{% url 'animal_detail' a.pk %}">
+                <span class="chip-name">{{ a.name }}</span>
+                <span class="chip-sub">{{ a.species.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+{% endblock %}

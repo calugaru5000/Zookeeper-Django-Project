@@ -9,4 +9,6 @@ urlpatterns = [
     path('animals/<int:pk>/update/', views.AnimalUpdateView.as_view(), name='animal_update'),
     path('animals/<int:pk>/delete/', views.AnimalDeleteView.as_view(), name='animal_delete'),
     path('animals/<int:pk>/feed/', views.feed_view, name='animal_feed'),
+    # Map page
+    path('map/', views.map_view, name='zoo_map'),
 ]

@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AnimalForm
 
 from .models import Animal, Species
+from django.shortcuts import render
 
 
 # 1️⃣ List View — show only the logged-in user's animals, with filters
@@ -85,3 +86,37 @@ def feed_view(request, pk):
     animal.last_fed_at = timezone.now()
     animal.save()
     return redirect('animal_detail', pk=pk)
+
+
+from django.contrib.auth.decorators import login_required
+
+
+# 5️⃣ Simple Map View — custom rectangular map grouped by diet
+@login_required
+def map_view(request):
+    """
+    Render a custom 'map' that divides the page into three vertical zones:
+    left = herbivores, middle = omnivores, right = carnivores.
+    Shows only the current user's animals, grouped by species.diet.
+    """
+    animals = (
+        Animal.objects.filter(owner=request.user)
+        .select_related('species')
+        .order_by('name')
+    )
+
+    herbivores = [a for a in animals if a.species and a.species.diet == 'herbivore']
+    omnivores = [a for a in animals if a.species and a.species.diet == 'omnivore']
+    carnivores = [a for a in animals if a.species and a.species.diet == 'carnivore']
+
+    context = {
+        'herbivores': herbivores,
+        'omnivores': omnivores,
+        'carnivores': carnivores,
+        'counts': {
+            'herbivore': len(herbivores),
+            'omnivore': len(omnivores),
+            'carnivore': len(carnivores),
+        },
+    }
+    return render(request, 'Zoo/map.html', context)
