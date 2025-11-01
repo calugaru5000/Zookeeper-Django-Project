@@ -1,0 +1,148 @@
+{% extends 'Zoo/base.html' %} {% block content %}
+<div class="admin-dashboard">
+    <h1>Zoo Administration</h1>
+
+    <div class="admin-sections">
+        <!-- Animals Section -->
+        <section class="admin-section">
+            <h2>Animals Management</h2>
+            <div class="admin-actions">
+                <a href="{% url 'animal_create' %}" class="btn">Add New Animal</a>
+                <a href="{% url 'animals_list' %}" class="btn">View All Animals</a>
+            </div>
+            {% if animals %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Species</th>
+                        <th>Enclosure</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for animal in animals %}
+                    <tr>
+                        <td>{{ animal.name }}</td>
+                        <td>{{ animal.species }}</td>
+                        <td>{{ animal.enclosure }}</td>
+                        <td>
+                            <a href="{% url 'animal_update' animal.pk %}" class="btn-small">Edit</a>
+                            <a href="{% url 'animal_delete' animal.pk %}" class="btn-small btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No animals added yet.</p>
+            {% endif %}
+        </section>
+
+        <!-- Species Section -->
+        <section class="admin-section">
+            <h2>Species Management</h2>
+            <div class="admin-actions">
+                <a href="{% url 'species_create' %}" class="btn">Add New Species</a>
+            </div>
+            {% if species_list %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Diet</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for species in species_list %}
+                    <tr>
+                        <td>{{ species.name }}</td>
+                        <td>{{ species.get_diet_display }}</td>
+                        <td>
+                            <a href="{% url 'species_update' species.pk %}" class="btn-small">Edit</a>
+                            <a href="{% url 'species_delete' species.pk %}" class="btn-small btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No species added yet.</p>
+            {% endif %}
+        </section>
+
+        <!-- Enclosures Section -->
+        <section class="admin-section">
+            <h2>Enclosures Management</h2>
+            <div class="admin-actions">
+                <a href="{% url 'enclosure_create' %}" class="btn">Add New Enclosure</a>
+            </div>
+            {% if enclosures %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Diet Type</th>
+                        <th>Capacity</th>
+                        <th>Occupancy</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enclosure in enclosures %}
+                    <tr>
+                        <td>{{ enclosure.name }}</td>
+                        <td>{{ enclosure.get_diet_type_display }}</td>
+                        <td>{{ enclosure.capacity }}</td>
+                        <td>{{ enclosure.current_occupancy }}/{{ enclosure.capacity }}</td>
+                        <td>
+                            <a href="{% url 'enclosure_update' enclosure.pk %}" class="btn-small">Edit</a>
+                            <a href="{% url 'enclosure_delete' enclosure.pk %}" class="btn-small btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No enclosures added yet.</p>
+            {% endif %}
+        </section>
+
+        <!-- Users Section -->
+        <section class="admin-section">
+            <h2>User Management</h2>
+            <div class="admin-actions">
+                <a href="{% url 'user_create' %}" class="btn">Add New User</a>
+            </div>
+            {% if users %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Staff Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.is_staff|yesno:"Yes,No" }}</td>
+                        <td>
+                            <a href="{% url 'user_update' user.pk %}" class="btn-small">Edit</a>
+                            <a href="{% url 'user_delete' user.pk %}" class="btn-small btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No users found.</p>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

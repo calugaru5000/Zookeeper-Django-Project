@@ -14,7 +14,12 @@
                 </select>
         </div>
         <div class="form-group">
-            <input type="text" name="enclosure" placeholder="Filter by enclosure" value="{{ request.GET.enclosure }}" class="form-control">
+            <select name="enclosure" class="form-control">
+                <option value="">All Enclosures</option>
+                {% for enclosure in enclosure_list %}
+                    <option value="{{ enclosure.name }}" {% if request.GET.enclosure|stringformat:"s" == enclosure.name|stringformat:"s" %}selected{% endif %}>{{ enclosure.name }} ({{ enclosure.current_occupancy }}/{{ enclosure.capacity }})</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="btn btn-filter">Filter</button>
     </form>

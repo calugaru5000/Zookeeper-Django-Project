@@ -1,11 +1,71 @@
 {% extends "Zoo/base.html" %} {% block content %}
 <div class="form-container">
     <h1 class="form-title">
-        {% if object %}Update {{ object.name }}{% else %}Add New Animal{% endif %}
+        {% if form_title %} {{ form_title }} {% else %} {% if object %}Update {{ object.name }}{% else %}Add New Item{% endif %} {% endif %}
     </h1>
     <form method="post" class="animal-form">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %} {# Render fields; if enclosure field present and enclosure_list passed, render custom select #} {% for field in form.visible_fields %} {% if field.name == 'enclosure' and enclosure_list %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <select name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="form-control">
+                        <option value="">Select enclosure</option>
+                        {% with selected=field.value %}
+                        {% for enc in enclosure_list %}
+                            {% comment %}selected logic: prefer bound value, otherwise object.enclosure{% endcomment %}
+                            {% if selected %}
+                                {% if selected|stringformat:"s" == enc.pk|stringformat:"s" %}
+                                    <option value="{{ enc.pk }}" data-full="{{ enc.is_full|yesno:'1,0' }}" selected>{{ enc.name }} ({{ enc.current_occupancy }}/{{ enc.capacity }})</option>
+                                {% else %}
+                                    <option value="{{ enc.pk }}" data-full="{{ enc.is_full|yesno:'1,0' }}">{{ enc.name }} ({{ enc.current_occupancy }}/{{ enc.capacity }})</option>
+                                {% endif %}
+                            {% else %}
+                                {% if object and object.enclosure and object.enclosure.pk == enc.pk %}
+                                    <option value="{{ enc.pk }}" data-full="{{ enc.is_full|yesno:'1,0' }}" selected>{{ enc.name }} ({{ enc.current_occupancy }}/{{ enc.capacity }})</option>
+                                {% else %}
+                                    <option value="{{ enc.pk }}" data-full="{{ enc.is_full|yesno:'1,0' }}">{{ enc.name }} ({{ enc.current_occupancy }}/{{ enc.capacity }})</option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                    </select>
+            <div id="enclosure-warning" class="info-muted" style="display:none; margin-top:8px; color:#a94442;">Warning: this enclosure is full.</div>
+            {% if field.errors %}
+            <div class="field-errors">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="form-group">
+            {{ field.label_tag }} {{ field }} {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small> {% endif %} {% if field.errors %}
+            <div class="field-errors">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endif %} {% endfor %}
+
         <button type="submit" class="btn btn-save">Save</button>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var select = document.getElementById('{{ form.enclosure.id_for_label }}');
+            var warning = document.getElementById('enclosure-warning');
+            if (!select) return;
+
+            function check() {
+                var opt = select.options[select.selectedIndex];
+                if (!opt) {
+                    warning.style.display = 'none';
+                    return;
+                }
+                if (opt.dataset && opt.dataset.full === '1') {
+                    warning.style.display = 'block';
+                } else {
+                    warning.style.display = 'none';
+                }
+            }
+            check();
+            select.addEventListener('change', check);
+        });
+    </script>
 </div>
 {% endblock %}

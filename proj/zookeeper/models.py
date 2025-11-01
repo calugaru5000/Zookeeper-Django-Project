@@ -14,12 +14,32 @@ class Species(models.Model):
     def __str__(self):
         return f"{self.name} ({self.get_diet_display()})"
 
+    class Meta:
+        verbose_name_plural = "Species"
+
+class Enclosure(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    capacity = models.PositiveIntegerField(default=1)
+    diet_type = models.CharField(max_length=20, choices=Species.DIET_CHOICES, help_text="Preferred diet type for this enclosure")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.get_diet_type_display()})"
+
+    @property
+    def current_occupancy(self):
+        return self.animal_set.count()
+
+    @property
+    def is_full(self):
+        return self.current_occupancy >= self.capacity
 
 class Animal(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
-    enclosure = models.CharField(max_length=100)
+    enclosure = models.ForeignKey(Enclosure, on_delete=models.CASCADE)
     last_fed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

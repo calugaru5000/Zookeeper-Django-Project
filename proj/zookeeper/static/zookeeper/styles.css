@@ -44,26 +44,15 @@ body {
 
 .nav-auth {
     display: flex;
-    align-items: center;
+    align-items: right;
 }
 
-.logout-form {
-    margin: 0;
-}
 
-.btn-logout {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+/* Hover effect for logout button */
 
 .btn-logout:hover {
-    background-color: white;
-    color: #555;
+    color: #ccc;
+    /* Match the hover effect of other nav links */
 }
 
 .nav-login {
@@ -175,6 +164,11 @@ ul li a:hover {
     border-color: #35424a;
 }
 
+.logout-form {
+    background-color: transparent;
+    padding: 0px 0px;
+}
+
 select.form-control {
     appearance: auto;
     -webkit-appearance: auto;
@@ -220,13 +214,16 @@ select.form-control {
     text-decoration: underline;
 }
 
+
 /* --- Map (Schematic) --- */
+
 .zoo-map {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
     width: 100%;
-    min-height: calc(100vh - 160px); /* full screen-ish minus header/padding */
+    min-height: calc(100vh - 160px);
+    /* full screen-ish minus header/padding */
 }
 
 .zone {
@@ -293,17 +290,23 @@ select.form-control {
 }
 
 @media (max-width: 900px) {
-    .zoo-map { grid-template-columns: 1fr; }
+    .zoo-map {
+        grid-template-columns: 1fr;
+    }
 }
+
 
 /* ==========================
    Drawing-style Zoo Map
    ========================== */
+
 .zoo-canvas {
     width: 100%;
     min-height: calc(100vh - 160px);
-    background: #e5e7eb; /* outer ground */
-    border: 6px solid #9ca3af; /* outer wall */
+    background: #e5e7eb;
+    /* outer ground */
+    border: 6px solid #9ca3af;
+    /* outer wall */
     border-radius: 16px;
     padding: 16px;
     box-shadow: inset 0 0 0 4px #d1d5db;
@@ -336,34 +339,35 @@ select.form-control {
 .cage {
     position: relative;
     background: #ffffff;
-    border: 4px solid #94a3b8; /* steel frame */
+    border: 4px solid #94a3b8;
+    /* steel frame */
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+
 /* Vertical bars overlay for a cage effect */
+
 .cage::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: repeating-linear-gradient(
-        90deg,
-        rgba(55, 65, 81, 0.12) 0px,
-        rgba(55, 65, 81, 0.12) 2px,
-        transparent 2px,
-        transparent 16px
-    );
+    background: repeating-linear-gradient( 90deg, rgba(55, 65, 81, 0.12) 0px, rgba(55, 65, 81, 0.12) 2px, transparent 2px, transparent 16px);
 }
 
+
 /* Floor strip */
+
 .cage::after {
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 28px;
-    background: rgba(0,0,0,0.04);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .cage-label {
@@ -377,14 +381,16 @@ select.form-control {
     border-radius: 8px;
     font-weight: 600;
     font-size: 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .cage-body {
     position: relative;
-    z-index: 0; /* under label */
-    padding: 48px 12px 40px; /* leave room for label + floor */
+    z-index: 0;
+    /* under label */
+    padding: 48px 12px 40px;
+    /* leave room for label + floor */
     height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -409,27 +415,146 @@ select.form-control {
     background: #f9fafb;
     text-decoration: none;
     color: #111827;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .animal-chip:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
-.chip-name { font-weight: 700; }
-.chip-sub  { font-size: 12px; color: #6b7280; }
+.chip-name {
+    font-weight: 700;
+}
+
+.chip-sub {
+    font-size: 12px;
+    color: #6b7280;
+}
+
 
 /* Subtle color accents per diet */
-.animal-chip.herbivore { border-color: #86efac; background: #f0fdf4; }
-.animal-chip.omnivore  { border-color: #93c5fd; background: #eff6ff; }
-.animal-chip.carnivore { border-color: #fca5a5; background: #fef2f2; }
 
-.cage-herbivore { background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 60%); }
-.cage-omnivore  { background: linear-gradient(180deg, #eff6ff 0%, #ffffff 60%); }
-.cage-carnivore { background: linear-gradient(180deg, #fef2f2 0%, #ffffff 60%); }
+.animal-chip.herbivore {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.animal-chip.omnivore {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+.animal-chip.carnivore {
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+.cage-herbivore {
+    background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 60%);
+}
+
+.cage-omnivore {
+    background: linear-gradient(180deg, #eff6ff 0%, #ffffff 60%);
+}
+
+.cage-carnivore {
+    background: linear-gradient(180deg, #fef2f2 0%, #ffffff 60%);
+}
 
 @media (max-width: 900px) {
-  .cage-grid { grid-template-columns: 1fr; }
+    .cage-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Admin Dashboard Styles */
+
+.admin-dashboard {
+    padding: 20px;
+}
+
+.admin-dashboard h1 {
+    margin-bottom: 30px;
+    color: #35424a;
+}
+
+.admin-sections {
+    display: grid;
+    gap: 30px;
+}
+
+.admin-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-section h2 {
+    color: #35424a;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.admin-actions {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    color: #35424a;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.admin-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-small {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    background-color: #35424a;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.btn-small:hover {
+    background-color: #576e7d;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+    }
 }
