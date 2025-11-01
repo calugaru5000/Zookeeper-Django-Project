@@ -1,0 +1,23 @@
+[
+  {"model": "zookeeper.species", "pk": 11, "fields": {"name": "Lion", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 12, "fields": {"name": "Tiger", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 13, "fields": {"name": "Leopard", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 14, "fields": {"name": "Cheetah", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 15, "fields": {"name": "Jaguar", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 16, "fields": {"name": "Wolf", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 17, "fields": {"name": "Hyena", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 18, "fields": {"name": "Crocodile", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 19, "fields": {"name": "Eagle", "diet": "carnivore"}},
+  {"model": "zookeeper.species", "pk": 20, "fields": {"name": "Owl", "diet": "carnivore"}},
+
+  {"model": "zookeeper.species", "pk": 21, "fields": {"name": "Brown Bear", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 22, "fields": {"name": "Black Bear", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 23, "fields": {"name": "Raccoon", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 24, "fields": {"name": "Pig", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 25, "fields": {"name": "Wild Boar", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 26, "fields": {"name": "Chimpanzee", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 27, "fields": {"name": "Fox", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 28, "fields": {"name": "Crow", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 29, "fields": {"name": "Chicken", "diet": "omnivore"}},
+  {"model": "zookeeper.species", "pk": 30, "fields": {"name": "Duck", "diet": "omnivore"}}
+]

@@ -1,0 +1,128 @@
+[
+{"model": "zookeeper.animal", "pk": 101, "fields": {"name": "Dumbo",   "species": 1, "enclosure": 121, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 102, "fields": {"name": "Ellie",  "species": 1, "enclosure": 121, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 103, "fields": {"name": "Tusk",   "species": 1, "enclosure": 121, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 104, "fields": {"name": "Thunder",  "species": 2, "enclosure": 122, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 105, "fields": {"name": "Star",  "species": 2, "enclosure": 122, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 106, "fields": {"name": "Blaze",  "species": 2, "enclosure": 122, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 107, "fields": {"name": "Pearl",  "species": 2, "enclosure": 122, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 108, "fields": {"name": "Molly",  "species": 3, "enclosure": 123, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 109, "fields": {"name": "Spot",  "species": 3, "enclosure": 123, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 110, "fields": {"name": "Daisy",  "species": 3, "enclosure": 123, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 111, "fields": {"name": "Luna",  "species": 4, "enclosure": 124, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 112, "fields": {"name": "Cloud",  "species": 4, "enclosure": 124, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 113, "fields": {"name": "Fluffy",  "species": 4, "enclosure": 124, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 114, "fields": {"name": "Rocky",  "species": 5, "enclosure": 125, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 115, "fields": {"name": "Bella",  "species": 5, "enclosure": 125, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 116, "fields": {"name": "Chip",  "species": 5, "enclosure": 125, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 117, "fields": {"name": "Longneck",  "species": 6, "enclosure": 126, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 118, "fields": {"name": "Grace",  "species": 6, "enclosure": 126, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 119, "fields": {"name": "Leaf",  "species": 6, "enclosure": 126, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 120, "fields": {"name": "Stripe",  "species": 7, "enclosure": 127, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 121, "fields": {"name": "Zoe",  "species": 7, "enclosure": 127, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 122, "fields": {"name": "Dash",  "species": 7, "enclosure": 127, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 123, "fields": {"name": "Mira",  "species": 7, "enclosure": 127, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 124, "fields": {"name": "Snowball",  "species": 8, "enclosure": 128, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 125, "fields": {"name": "Coco",  "species": 8, "enclosure": 128, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 126, "fields": {"name": "Nibbles",  "species": 8, "enclosure": 128, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 127, "fields": {"name": "Shadow",  "species": 8, "enclosure": 128, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 128, "fields": {"name": "Puffy",  "species": 8, "enclosure": 128, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 129, "fields": {"name": "Bambi",  "species": 9, "enclosure": 129, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 130, "fields": {"name": "Oak",  "species": 9, "enclosure": 129, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 131, "fields": {"name": "Willow",  "species": 9, "enclosure": 129, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 132, "fields": {"name": "Bruno", "species": 10, "enclosure": 130, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 133, "fields": {"name": "Luna", "species": 10, "enclosure": 130, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 134, "fields": {"name": "Max", "species": 10, "enclosure": 130, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+
+
+{"model": "zookeeper.animal", "pk": 201, "fields": {"name": "Simba", "species": 11, "enclosure": 101, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 202, "fields": {"name": "Nala", "species": 11, "enclosure": 101, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 203, "fields": {"name": "Mufasa",  "species": 11, "enclosure": 101, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 204, "fields": {"name": "Rajah", "species": 12, "enclosure": 102, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 205, "fields": {"name": "Shere Khan", "species": 12, "enclosure": 102, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 206, "fields": {"name": "Tigra", "species": 12, "enclosure": 102, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 207, "fields": {"name": "Spot", "species": 13, "enclosure": 103, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 208, "fields": {"name": "Shadow", "species": 13, "enclosure": 103, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 209, "fields": {"name": "Dash", "species": 14, "enclosure": 104, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 210, "fields": {"name": "Flash", "species": 14, "enclosure": 104, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 211, "fields": {"name": "Speedy", "species": 14, "enclosure": 104, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 212, "fields": {"name": "Panthera", "species": 15, "enclosure": 105, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 213, "fields": {"name": "Onca", "species": 15, "enclosure": 105, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 214, "fields": {"name": "Luna", "species": 16, "enclosure": 106, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 215, "fields": {"name": "Ghost", "species": 16, "enclosure": 106, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 216, "fields": {"name": "Alpha", "species": 16, "enclosure": 106, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 217, "fields": {"name": "Scar", "species": 17, "enclosure": 107, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 218, "fields": {"name": "Cackle", "species": 17, "enclosure": 107, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 219, "fields": {"name": "Snarl", "species": 17, "enclosure": 107, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 220, "fields": {"name": "Snap",  "species": 18, "enclosure": 108, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 221, "fields": {"name": "Crunch",  "species": 18, "enclosure": 108, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 222, "fields": {"name": "Chomp",  "species": 18, "enclosure": 108, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 223, "fields": {"name": "Aquila", "species": 19, "enclosure": 109, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 224, "fields": {"name": "Talon", "species": 19, "enclosure": 109, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 225, "fields": {"name": "Sky", "species": 19, "enclosure": 109, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 226, "fields": {"name": "Hoot", "species": 20, "enclosure": 110, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 227, "fields": {"name": "Echo", "species": 20, "enclosure": 110, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 228, "fields": {"name": "Noctis", "species": 20, "enclosure": 110, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+
+
+{"model": "zookeeper.animal", "pk": 301, "fields": {"name": "Bruno", "species": 21, "enclosure": 111, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 302, "fields": {"name": "Yogi", "species": 21, "enclosure": 111, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 303, "fields": {"name": "Baloo",  "species": 21, "enclosure": 111, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 304, "fields": {"name": "Shadow", "species": 22, "enclosure": 112, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 305, "fields": {"name": "Midnight", "species": 22, "enclosure": 112, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 306, "fields": {"name": "Luna", "species": 22, "enclosure": 112, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 307, "fields": {"name": "Bandit", "species": 23, "enclosure": 113, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 308, "fields": {"name": "Rocket", "species": 23, "enclosure": 113, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 309, "fields": {"name": "Rascal", "species": 23, "enclosure": 113, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 310, "fields": {"name": "Porky", "species": 24, "enclosure": 114, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 311, "fields": {"name": "Babe", "species": 24, "enclosure": 114, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 312, "fields": {"name": "Truffle", "species": 24, "enclosure": 114, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 313, "fields": {"name": "Tusker", "species": 25, "enclosure": 115, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 314, "fields": {"name": "Boaris", "species": 25, "enclosure": 115, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 315, "fields": {"name": "Grizzle", "species": 25, "enclosure": 115, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 316, "fields": {"name": "Koko", "species": 26, "enclosure": 116, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 317, "fields": {"name": "Cleo", "species": 26, "enclosure": 116, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 318, "fields": {"name": "Bobo", "species": 26, "enclosure": 116, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 319, "fields": {"name": "Amber", "species": 27, "enclosure": 117, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 320, "fields": {"name": "Fennec", "species": 27, "enclosure": 117, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 321, "fields": {"name": "Rusty", "species": 27, "enclosure": 117, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 322, "fields": {"name": "Crowley", "species": 28, "enclosure": 118, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 323, "fields": {"name": "Raven", "species": 28, "enclosure": 118, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 324, "fields": {"name": "Jet", "species": 28, "enclosure": 118, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 325, "fields": {"name": "Clucky", "species": 29, "enclosure": 119, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 326, "fields": {"name": "Henrietta", "species": 29, "enclosure": 119, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 327, "fields": {"name": "Feathers", "species": 29, "enclosure": 119, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+
+{"model": "zookeeper.animal", "pk": 328, "fields": {"name": "Quack", "species": 30, "enclosure": 120, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 329, "fields": {"name": "Waddles", "species": 30, "enclosure": 120, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}},
+{"model": "zookeeper.animal", "pk": 330, "fields": {"name": "Flap", "species": 30, "enclosure": 120, "owner": "1", "last_fed_at": "2025-10-26T23:30:00", "created_at": "2025-10-30"}}
+
+]
