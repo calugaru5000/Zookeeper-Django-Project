@@ -128,7 +128,8 @@ def map_view(request):
     Shows only the current user's animals, grouped by species.diet.
     """
     animals = (
-        Animal.objects.filter(owner=request.user)
+        Animal.objects
+        # .filter(owner=request.user)
         .select_related('species')
         .order_by('name')
     )
