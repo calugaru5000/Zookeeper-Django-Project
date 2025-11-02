@@ -11,6 +11,7 @@
                 <a href="{% url 'animals_list' %}" class="btn">View All Animals</a>
             </div>
             {% if animals %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -34,6 +35,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
             {% else %}
             <p>No animals added yet.</p>
             {% endif %}
@@ -46,6 +48,7 @@
                 <a href="{% url 'species_create' %}" class="btn">Add New Species</a>
             </div>
             {% if species_list %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -67,6 +70,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
             {% else %}
             <p>No species added yet.</p>
             {% endif %}
@@ -79,6 +83,7 @@
                 <a href="{% url 'enclosure_create' %}" class="btn">Add New Enclosure</a>
             </div>
             {% if enclosures %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -104,6 +109,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
             {% else %}
             <p>No enclosures added yet.</p>
             {% endif %}
@@ -116,6 +122,7 @@
                 <a href="{% url 'user_create' %}" class="btn">Add New User</a>
             </div>
             {% if users %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -139,6 +146,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
             {% else %}
             <p>No users found.</p>
             {% endif %}

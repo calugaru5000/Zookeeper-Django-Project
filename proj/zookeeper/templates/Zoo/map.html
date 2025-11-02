@@ -2,23 +2,24 @@
 {% load static %}
 
 {% block content %}
-  <h1>Zoo Map</h1>
-  <p>Plan schematizat: trei cuști (stânga ierbivore, mijloc omnivore, dreapta carnivore).</p>
 
-  <div class="zoo-canvas" role="region" aria-label="Harta desenată a grădinii">
+<div>
+  <h1>Zoo Map 🐾</h1>
+  <p>Plan interactiv: stânga ierbivore, mijloc omnivore, dreapta carnivore.</p>
+
+  <div class="zoo-canvas" role="region" aria-label="Harta interactivă a grădinii">
     <div class="cage-grid">
+
       <!-- Ierbivore -->
       <section class="pen" aria-label="Zonă ierbivore">
         <div class="pen-title">Ierbivore ({{ counts.herbivore }})</div>
         <div class="pen-rect cage cage-herbivore">
-          <div class="cage-body">
-            {% for a in herbivores %}
-              <a class="animal-chip herbivore" href="{% url 'animal_detail' a.pk %}">
-                <span class="chip-name">{{ a.name }}</span>
-                <span class="chip-sub">{{ a.species.name }}</span>
-              </a>
-            {% endfor %}
+          {% for a in herbivores %}
+          <div class="animal-chip herbivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
+            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
+            {{ a.name }}
           </div>
+          {% endfor %}
         </div>
       </section>
 
@@ -26,14 +27,12 @@
       <section class="pen" aria-label="Zonă omnivore">
         <div class="pen-title">Omnivore ({{ counts.omnivore }})</div>
         <div class="pen-rect cage cage-omnivore">
-          <div class="cage-body">
-            {% for a in omnivores %}
-              <a class="animal-chip omnivore" href="{% url 'animal_detail' a.pk %}">
-                <span class="chip-name">{{ a.name }}</span>
-                <span class="chip-sub">{{ a.species.name }}</span>
-              </a>
-            {% endfor %}
+          {% for a in omnivores %}
+          <div class="animal-chip omnivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
+            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
+            {{ a.name }}
           </div>
+          {% endfor %}
         </div>
       </section>
 
@@ -41,17 +40,55 @@
       <section class="pen" aria-label="Zonă carnivore">
         <div class="pen-title">Carnivore ({{ counts.carnivore }})</div>
         <div class="pen-rect cage cage-carnivore">
-          <div class="cage-body">
-            {% for a in carnivores %}
-              <a class="animal-chip carnivore" href="{% url 'animal_detail' a.pk %}">
-                <span class="chip-name">{{ a.name }}</span>
-                <span class="chip-sub">{{ a.species.name }}</span>
-              </a>
-            {% endfor %}
+          {% for a in carnivores %}
+          <div class="animal-chip herbivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
+            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
+            {{ a.name }}
           </div>
+          {% endfor %}
         </div>
       </section>
+
     </div>
   </div>
 
+  <!-- Modal Popup -->
+ <div id="animalModal" class="modal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">&times;</button>
+    <h2 id="modalName"></h2>
+    <p><strong>Specie:</strong> <span id="modalSpecies"></span></p>
+    <p><strong>Ultima hrană:</strong> <span id="modalLastFed"></span></p>
+  </div>
+</div>
+
+</div>
+
+<script>
+ // adaugă click pe toate chipurile
+document.querySelectorAll('.animal-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    showAnimalModal(chip);
+  });
+});
+
+function showAnimalModal(chip) {
+  document.getElementById('modalName').innerText = chip.dataset.name;
+  document.getElementById('modalSpecies').innerText = chip.dataset.species;
+  document.getElementById('modalLastFed').innerText = chip.dataset.lastFed;
+  document.getElementById('animalModal').style.display = 'flex'; // folosim flex pentru centrare
+}
+
+function closeModal() {
+  document.getElementById('animalModal').style.display = 'none';
+}
+
+// click în afara modalului
+window.onclick = function (event) {
+  if (event.target == document.getElementById('animalModal')) {
+    closeModal();
+  }
+}
+
+</script>
 {% endblock %}
