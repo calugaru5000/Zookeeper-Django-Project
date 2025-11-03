@@ -2,12 +2,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from .forms import AnimalForm, SpeciesForm, CustomUserCreationForm, CustomUserChangeForm, EnclosureForm
+from django.http import JsonResponse
 
 from .models import Animal, Species, Enclosure
 from django.shortcuts import render
@@ -113,6 +114,15 @@ def feed_view(request, pk):
         animal = get_object_or_404(Animal, pk=pk, owner=request.user)
     animal.last_fed_at = timezone.now()
     animal.save()
+
+    # If AJAX request, return JSON instead of redirect
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' or 'application/json' in request.headers.get('Accept', ''):
+        return JsonResponse({
+            'status': 'ok',
+            'id': animal.id,
+            'last_fed_at': animal.last_fed_at.isoformat()
+        })
+
     return redirect('animal_detail', pk=pk)
 
 
@@ -135,6 +145,9 @@ def map_view(request):
             'name': animal.name,
             'species': animal.species.name if animal.species else 'Unknown',
             'enclosure': animal.enclosure.name if animal.enclosure else 'Unknown',
+            'feed_url': reverse('animal_feed', args=[animal.id]),
+            'can_feed': request.user.is_staff or (animal.owner_id == request.user.id),
+            'last_fed_at': animal.last_fed_at.isoformat() if animal.last_fed_at else None,
         }
 
     context = {

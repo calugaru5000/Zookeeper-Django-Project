@@ -186,9 +186,36 @@
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
+
+/* Feed button styling */
+.feed-btn {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.feed-btn:hover { opacity: 0.9; }
+.feed-btn[disabled] {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+.animal-text { display: inline-block; margin-right: 8px; }
+.feed-status { display: block; font-weight: 500; color: #374151; margin-top: 6px; }
 </style>
 
 <script>
+// Get CSRF token from cookie (Django standard)
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 function showZone(type) {
   const data = JSON.parse(document.getElementById(type + 'Data').textContent);
   const modal = document.getElementById('animalModal');
@@ -203,7 +230,48 @@ function showZone(type) {
   } else {
     data.forEach(a => {
       const li = document.createElement('li');
-      li.textContent = `${a.name} (${a.species}) — Enclosure: ${a.enclosure}`;
+      li.className = 'animal-item';
+
+      const info = document.createElement('span');
+      info.className = 'animal-text';
+      info.textContent = `${a.name} (${a.species}) — Enclosure: ${a.enclosure}`;
+      li.appendChild(info);
+
+      // Feed button (only if user can feed)
+      if (a.can_feed) {
+        const btn = document.createElement('button');
+        btn.className = 'feed-btn';
+        btn.textContent = 'Feed';
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          btn.disabled = true;
+          btn.textContent = 'Feeding…';
+          try {
+            const resp = await fetch(a.feed_url, {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+              }
+            });
+            if (!resp.ok) throw new Error('Request failed');
+            const json = await resp.json();
+            btn.textContent = 'Fed ✓';
+            status.textContent = 'Fed just now';
+          } catch (err) {
+            btn.textContent = 'Feed';
+            btn.disabled = false;
+            status.textContent = 'Feeding failed. Please try again.';
+          }
+        });
+        li.appendChild(btn);
+      }
+
+      const status = document.createElement('small');
+      status.className = 'feed-status';
+      status.textContent = a.last_fed_at ? `Last fed: ${new Date(a.last_fed_at).toLocaleString()}` : 'Never fed';
+      li.appendChild(status);
       list.appendChild(li);
     });
   }
