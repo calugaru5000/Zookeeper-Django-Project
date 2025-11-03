@@ -1,94 +1,223 @@
 {% extends 'Zoo/base.html' %}
 {% load static %}
-
 {% block content %}
+<div class="map-wrapper">
+  <h1 class="map-title">Zoo Map Overview</h1>
 
-<div>
-  <h1>Zoo Map 🐾</h1>
-  <p>Plan interactiv: stânga ierbivore, mijloc omnivore, dreapta carnivore.</p>
-
-  <div class="zoo-canvas" role="region" aria-label="Harta interactivă a grădinii">
-    <div class="cage-grid">
-
-      <!-- Ierbivore -->
-      <section class="pen" aria-label="Zonă ierbivore">
-        <div class="pen-title">Ierbivore ({{ counts.herbivore }})</div>
-        <div class="pen-rect cage cage-herbivore">
-          {% for a in herbivores %}
-          <div class="animal-chip herbivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
-            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
-            {{ a.name }}
-          </div>
-          {% endfor %}
-        </div>
-      </section>
-
-      <!-- Omnivore -->
-      <section class="pen" aria-label="Zonă omnivore">
-        <div class="pen-title">Omnivore ({{ counts.omnivore }})</div>
-        <div class="pen-rect cage cage-omnivore">
-          {% for a in omnivores %}
-          <div class="animal-chip omnivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
-            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
-            {{ a.name }}
-          </div>
-          {% endfor %}
-        </div>
-      </section>
-
-      <!-- Carnivore -->
-      <section class="pen" aria-label="Zonă carnivore">
-        <div class="pen-title">Carnivore ({{ counts.carnivore }})</div>
-        <div class="pen-rect cage cage-carnivore">
-          {% for a in carnivores %}
-          <div class="animal-chip herbivore" data-name="{{ a.name }}" data-species="{{ a.species.name }}"
-            data-age="{{ a.age }}" data-last-fed="{{ a.last_fed_at }}" onclick="showAnimalModal(this)">
-            {{ a.name }}
-          </div>
-          {% endfor %}
-        </div>
-      </section>
-
+  <div class="map-container">
+    <div class="zone-circle herbivore" onclick="showZone('herbivore')">
+      <span>Herbivores</span>
+    </div>
+    <div class="zone-circle omnivore" onclick="showZone('omnivore')">
+      <span>Omnivores</span>
+    </div>
+    <div class="zone-circle carnivore" onclick="showZone('carnivore')">
+      <span>Carnivores</span>
     </div>
   </div>
+</div>
 
-  <!-- Modal Popup -->
- <div id="animalModal" class="modal">
+<!-- Modal -->
+<div id="animalModal" class="modal">
   <div class="modal-content">
     <button class="close" onclick="closeModal()">&times;</button>
-    <h2 id="modalName"></h2>
-    <p><strong>Specie:</strong> <span id="modalSpecies"></span></p>
-    <p><strong>Ultima hrană:</strong> <span id="modalLastFed"></span></p>
+    <h2 id="modalTitle"></h2>
+    <ul id="animalList"></ul>
   </div>
 </div>
 
-</div>
+{{ herbivores|json_script:"herbivoreData" }}
+{{ omnivores|json_script:"omnivoreData" }}
+{{ carnivores|json_script:"carnivoreData" }}
+
+<style>
+/* --- MAP PAGE STYLING --- */
+.map-wrapper {
+  background: transparent !important;
+  padding: 0px 20px;
+  background: linear-gradient(145deg, #f8fafc, #e0f2fe);
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.map-title {
+  font-size: 2.5em;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #22c55e, #3b82f6, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: title-glow 2s ease-in-out infinite alternate;
+  margin: 0;
+}
+
+.map-container {
+  position: relative;
+  width: 90vw;
+  height: 85vh;
+  background: url("{% static 'zookeeper/images/zoo_map.png' %}") no-repeat center center;
+  background-size: contain;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border: 4px solid rgba(59, 130, 246, 0.1);
+}
+
+/* Circular zones */
+.zone-circle {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.zone-circle span {
+  pointer-events: none;
+  font-size: 1.1em;
+}
+
+/* Glow & scale on hover */
+.zone-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Positions */
+.zone-circle.herbivore {
+  top: 35%;
+  left: 20%;
+  width: 25%;
+  height: 55%;
+  background: radial-gradient(circle, rgba(34,197,94,0.65), rgba(34,197,94,0.3));
+}
+
+.zone-circle.omnivore {
+  top: 11%;
+  left: 45%;
+  width: 25%;
+  height: 66%;
+  background: radial-gradient(circle, rgba(245,158,11,0.65), rgba(245,158,11,0.3));
+}
+
+.zone-circle.carnivore {
+  top: 10%;
+  left: 72%;
+  width: 10.5%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(239,68,68,0.65), rgba(239,68,68,0.3));
+}
+
+/* --- MODAL STYLING (matches existing theme) --- */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #ffffff, #f3f6fb);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 450px;
+  width: 90%;
+  color: #111827;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.8em;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.close:hover {
+  transform: scale(1.2);
+  color: #ef4444;
+}
+
+#modalTitle {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #3b82f6, #22c55e, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#animalList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#animalList li {
+  background: #f9fafb;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#animalList li:hover {
+  background: linear-gradient(145deg, #e0f7fa, #f0f9ff);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+</style>
 
 <script>
- // adaugă click pe toate chipurile
-document.querySelectorAll('.animal-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    showAnimalModal(chip);
-  });
-});
+function showZone(type) {
+  const data = JSON.parse(document.getElementById(type + 'Data').textContent);
+  const modal = document.getElementById('animalModal');
+  const list = document.getElementById('animalList');
+  const title = document.getElementById('modalTitle');
 
-function showAnimalModal(chip) {
-  document.getElementById('modalName').innerText = chip.dataset.name;
-  document.getElementById('modalSpecies').innerText = chip.dataset.species;
-  document.getElementById('modalLastFed').innerText = chip.dataset.lastFed;
-  document.getElementById('animalModal').style.display = 'flex'; // folosim flex pentru centrare
+  list.innerHTML = '';
+  title.textContent = type.charAt(0).toUpperCase() + type.slice(1) + 's 🐾';
+
+  if (data.length === 0) {
+    list.innerHTML = '<li>No animals found.</li>';
+  } else {
+    data.forEach(a => {
+      const li = document.createElement('li');
+      li.textContent = `${a.name} (${a.species}) — Enclosure: ${a.enclosure}`;
+      list.appendChild(li);
+    });
+  }
+
+  modal.style.display = 'flex';
 }
 
 function closeModal() {
   document.getElementById('animalModal').style.display = 'none';
 }
 
-// click în afara modalului
 window.onclick = function (event) {
-  if (event.target == document.getElementById('animalModal')) {
-    closeModal();
-  }
-}
-
+  const modal = document.getElementById('animalModal');
+  if (event.target == modal) closeModal();
+};
 </script>
 {% endblock %}

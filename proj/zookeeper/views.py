@@ -122,33 +122,29 @@ from django.contrib.auth.decorators import login_required
 # 5️⃣ Simple Map View — custom rectangular map grouped by diet
 @login_required
 def map_view(request):
-    """
-    Render a custom 'map' that divides the page into three vertical zones:
-    left = herbivores, middle = omnivores, right = carnivores.
-    Shows only the current user's animals, grouped by species.diet.
-    """
-    animals = (
-        Animal.objects
-        # .filter(owner=request.user)
-        .select_related('species')
-        .order_by('name')
-    )
+    animals = Animal.objects.select_related('species').order_by('name')
 
     herbivores = [a for a in animals if a.species and a.species.diet == 'herbivore']
     omnivores = [a for a in animals if a.species and a.species.diet == 'omnivore']
     carnivores = [a for a in animals if a.species and a.species.diet == 'carnivore']
 
+    # 🧩 Convert to simple dicts
+    def serialize(animal):
+        return {
+            'id': animal.id,
+            'name': animal.name,
+            'species': animal.species.name if animal.species else 'Unknown',
+            'enclosure': animal.enclosure.name if animal.enclosure else 'Unknown',
+        }
+
     context = {
-        'herbivores': herbivores,
-        'omnivores': omnivores,
-        'carnivores': carnivores,
-        'counts': {
-            'herbivore': len(herbivores),
-            'omnivore': len(omnivores),
-            'carnivore': len(carnivores),
-        },
+        'herbivores': [serialize(a) for a in herbivores],
+        'omnivores': [serialize(a) for a in omnivores],
+        'carnivores': [serialize(a) for a in carnivores],
     }
+
     return render(request, 'Zoo/map.html', context)
+
 
 # Admin Views
 class AdminRequiredMixin(UserPassesTestMixin):
