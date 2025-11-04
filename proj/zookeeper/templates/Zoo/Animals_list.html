@@ -32,4 +32,12 @@
         {% endfor %}
     </ul>
 </div>
+<script>
+window.addEventListener("pageshow", function (event) {
+  // If page is loaded from cache (like when pressing back), force reload
+  if (event.persisted) {
+    window.location.reload();
+  }
+});
+</script>
 {% endblock %}
