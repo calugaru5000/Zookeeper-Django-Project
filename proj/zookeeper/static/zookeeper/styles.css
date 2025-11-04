@@ -383,11 +383,11 @@ select.form-control {
 
 .animal-list {
     display: grid;
-    gap: 15px;
-    max-height: 400px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    max-height: 60vh;
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 10px;
 }
 
 .animal-list::-webkit-scrollbar {
@@ -666,15 +666,19 @@ select.form-control {
 }
 
 .modal-content {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px;
-    text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+  background: linear-gradient(145deg, #ffffff, #f3f6fb);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 900px; /* wider so grid fits */
+  width: 90%;
+  color: #111827;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  transition: max-width 0.3s ease;
 }
+
 
 
 .animal-chip {
@@ -1076,25 +1080,44 @@ nav.navbar {
   line-height: 1.1 !important;  /* keeps it compact vertically */
 }
 
-.modal-content {
-  background: linear-gradient(145deg, #ffffff, #f3f6fb);
-  border-radius: 20px;
-  padding: 30px;
-  max-width: 450px;
-  width: 90%;
-  color: #111827;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-  position: relative;
-  max-height: 80vh;
-  overflow-y: auto;
+
+#animalList {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  gap: 16px !important;
+  list-style: none !important;
+  padding: 10px !important;
+  margin: 0 !important;
+  max-height: 60vh !important;
+  overflow-y: auto !important;
 }
 
 #animalList li {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background: #f9fafb !important;
   color: #111827 !important;
-  background: #f9fafb;
-  margin-bottom: 10px;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 14px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  text-align: left !important;
+}
+
+/* --- TOOLTIP --- */
+.zone-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: rgba(17, 24, 39, 0.9);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.9em;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 3000;
+  white-space: nowrap;
 }

@@ -243,3 +243,5 @@ class EnclosureDeleteView(AdminRequiredMixin, DeleteView):
     model = Enclosure
     template_name = 'Zoo/confirm_delete.html'
     success_url = reverse_lazy('admin_dashboard')
+
+

@@ -14,6 +14,7 @@
     <div class="zone-circle carnivore" onclick="showZone('carnivore')">
       <span>Carnivores</span>
     </div>
+      <div class="zone-tooltip" id="zoneTooltip"></div>
   </div>
 </div>
 
@@ -117,7 +118,7 @@
   background: radial-gradient(circle, rgba(239,68,68,0.65), rgba(239,68,68,0.3));
 }
 
-/* --- MODAL STYLING (matches existing theme) --- */
+/* --- MODAL STYLING --- */
 .modal {
   display: none;
   position: fixed;
@@ -133,11 +134,13 @@
   background: linear-gradient(145deg, #ffffff, #f3f6fb);
   border-radius: 20px;
   padding: 30px;
-  max-width: 450px;
+  max-width: 750px;
   width: 90%;
   color: #111827;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
   position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .close {
@@ -170,26 +173,26 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
 #animalList li {
   background: #f9fafb;
-  margin-bottom: 10px;
   padding: 12px;
   border-radius: 10px;
   font-weight: 600;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex: 1 1 calc(30% - 12px);
+  min-width: 220px;
+  max-width: 250px;
+  text-align: center;
 }
 
-#animalList li:hover {
-  background: linear-gradient(145deg, #e0f7fa, #f0f9ff);
-  transform: translateY(-2px);
-  transition: all 0.2s ease;
-}
-
-/* Feed button styling */
 .feed-btn {
-  margin-left: 10px;
+  margin-top: 8px;
   padding: 6px 10px;
   border-radius: 8px;
   border: none;
@@ -204,9 +207,13 @@
   background: #9ca3af;
   cursor: not-allowed;
 }
-.animal-text { display: inline-block; margin-right: 8px; }
-.feed-status { display: block; font-weight: 500; color: #374151; margin-top: 6px; }
+.animal-text { display: block; margin-bottom: 4px; }
+.feed-status { display: block; font-weight: 500; color: #374151; margin-top: 4px; }
 </style>
+
+{{ herbivores|json_script:"herbivoreData" }}
+{{ omnivores|json_script:"omnivoreData" }}
+{{ carnivores|json_script:"carnivoreData" }}
 
 <script>
 // Get CSRF token from cookie (Django standard)
@@ -214,6 +221,26 @@ function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// ✅ Helper: refresh hidden JSON data after feeding
+async function refreshAllZones() {
+  try {
+    const resp = await fetch(window.location.href, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const text = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    document.getElementById("herbivoreData").textContent =
+      doc.getElementById("herbivoreData").textContent;
+    document.getElementById("omnivoreData").textContent =
+      doc.getElementById("omnivoreData").textContent;
+    document.getElementById("carnivoreData").textContent =
+      doc.getElementById("carnivoreData").textContent;
+  } catch (err) {
+    console.error("Failed to refresh zones:", err);
+  }
 }
 
 function showZone(type) {
@@ -234,10 +261,9 @@ function showZone(type) {
 
       const info = document.createElement('span');
       info.className = 'animal-text';
-      info.textContent = `${a.name} (${a.species}) — Enclosure: ${a.enclosure}`;
+      info.textContent = `${a.name} (${a.species}) — ${a.enclosure}`;
       li.appendChild(info);
 
-      // Feed button (only if user can feed)
       if (a.can_feed) {
         const btn = document.createElement('button');
         btn.className = 'feed-btn';
@@ -258,7 +284,9 @@ function showZone(type) {
             if (!resp.ok) throw new Error('Request failed');
             const json = await resp.json();
             btn.textContent = 'Fed ✓';
-            status.textContent = 'Fed just now';
+            status.textContent = 'Last fed: just now';
+            a.last_fed_at = json.last_fed_at;
+            await refreshAllZones(); // ✅ refetch updated data
           } catch (err) {
             btn.textContent = 'Feed';
             btn.disabled = false;
@@ -272,6 +300,7 @@ function showZone(type) {
       status.className = 'feed-status';
       status.textContent = a.last_fed_at ? `Last fed: ${new Date(a.last_fed_at).toLocaleString()}` : 'Never fed';
       li.appendChild(status);
+
       list.appendChild(li);
     });
   }
@@ -287,5 +316,52 @@ window.onclick = function (event) {
   const modal = document.getElementById('animalModal');
   if (event.target == modal) closeModal();
 };
+
+    // --- HOVER TOOLTIP FOR FEED COUNTS ---
+const tooltip = document.getElementById("zoneTooltip");
+const mapContainer = document.querySelector(".map-container");
+
+document.querySelectorAll(".zone-circle").forEach(zone => {
+  zone.addEventListener("mouseenter", e => {
+    const type = zone.classList.contains("herbivore") ? "herbivore" :
+                 zone.classList.contains("omnivore") ? "omnivore" :
+                 zone.classList.contains("carnivore") ? "carnivore" : null;
+
+    if (!type) return;
+
+    const dataElement = document.getElementById(type + "Data");
+    if (!dataElement) return;
+
+    const data = JSON.parse(dataElement.textContent);
+    const fedCount = data.filter(a => a.last_fed_at).length;
+    const total = data.length;
+    const percent = total ? Math.round((fedCount / total) * 100) : 0;
+
+    tooltip.innerHTML = `${fedCount}/${total} fed`;
+    tooltip.style.opacity = "1";
+
+    // Color-code tooltip by fed percentage
+    tooltip.style.background = percent >= 80 ? "rgba(46, 204, 113, 0.9)" :  // green
+                                percent >= 50 ? "rgba(241, 196, 15, 0.9)" :  // yellow
+                                                "rgba(231, 76, 60, 0.9)";    // red
+
+    const rect = zone.getBoundingClientRect();
+    const containerRect = mapContainer.getBoundingClientRect();
+    tooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
+    tooltip.style.top = `${rect.top - containerRect.top - 25}px`;
+  });
+
+  zone.addEventListener("mousemove", e => {
+    const rect = mapContainer.getBoundingClientRect();
+    tooltip.style.left = `${e.clientX - rect.left + 10}px`;
+    tooltip.style.top = `${e.clientY - rect.top - 25}px`;
+  });
+
+  zone.addEventListener("mouseleave", () => {
+    tooltip.style.opacity = "0";
+  });
+});
+
 </script>
 {% endblock %}
+
