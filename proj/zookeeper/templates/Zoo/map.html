@@ -317,15 +317,19 @@ window.onclick = function (event) {
   if (event.target == modal) closeModal();
 };
 
-    // --- HOVER TOOLTIP FOR FEED COUNTS ---
+// --- HOVER TOOLTIP FOR FEED COUNTS (within 48h) ---
 const tooltip = document.getElementById("zoneTooltip");
 const mapContainer = document.querySelector(".map-container");
 
 document.querySelectorAll(".zone-circle").forEach(zone => {
   zone.addEventListener("mouseenter", e => {
-    const type = zone.classList.contains("herbivore") ? "herbivore" :
-                 zone.classList.contains("omnivore") ? "omnivore" :
-                 zone.classList.contains("carnivore") ? "carnivore" : null;
+    const type = zone.classList.contains("herbivore")
+      ? "herbivore"
+      : zone.classList.contains("omnivore")
+      ? "omnivore"
+      : zone.classList.contains("carnivore")
+      ? "carnivore"
+      : null;
 
     if (!type) return;
 
@@ -333,28 +337,43 @@ document.querySelectorAll(".zone-circle").forEach(zone => {
     if (!dataElement) return;
 
     const data = JSON.parse(dataElement.textContent);
-    const fedCount = data.filter(a => a.last_fed_at).length;
+
+    // ✅ Count only animals fed within the last 48h
+    const now = new Date();
+    const fedCount = data.filter(a => {
+      if (!a.last_fed_at) return false;
+      const fedDate = new Date(a.last_fed_at);
+      const hoursAgo = (now - fedDate) / (1000 * 60 * 60);
+      return hoursAgo <= 24; // fed within 48 hours
+    }).length;
+
     const total = data.length;
     const percent = total ? Math.round((fedCount / total) * 100) : 0;
 
-    tooltip.innerHTML = `${fedCount}/${total} fed`;
+    tooltip.innerHTML = `${fedCount}/${total} fed (last 24h)`;
     tooltip.style.opacity = "1";
 
-    // Color-code tooltip by fed percentage
-    tooltip.style.background = percent >= 80 ? "rgba(46, 204, 113, 0.9)" :  // green
-                                percent >= 50 ? "rgba(241, 196, 15, 0.9)" :  // yellow
-                                                "rgba(231, 76, 60, 0.9)";    // red
+    // 🟢 Color by freshness
+    tooltip.style.background =
+      percent >= 80
+        ? "rgba(34,197,94,0.9)" // green
+        : percent >= 50
+        ? "rgba(245,158,11,0.9)" // yellow
+        : "rgba(239,68,68,0.9)"; // red
 
+    // Center tooltip above zone
     const rect = zone.getBoundingClientRect();
     const containerRect = mapContainer.getBoundingClientRect();
-    tooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
-    tooltip.style.top = `${rect.top - containerRect.top - 25}px`;
+    const left = rect.left - containerRect.left + rect.width / 2;
+    const top = rect.top - containerRect.top - 30;
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
   });
 
   zone.addEventListener("mousemove", e => {
     const rect = mapContainer.getBoundingClientRect();
     tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-    tooltip.style.top = `${e.clientY - rect.top - 25}px`;
+    tooltip.style.top = `${e.clientY - rect.top - 30}px`;
   });
 
   zone.addEventListener("mouseleave", () => {
