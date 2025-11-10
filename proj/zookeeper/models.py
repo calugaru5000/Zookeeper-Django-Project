@@ -21,8 +21,15 @@ class Enclosure(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     capacity = models.PositiveIntegerField(default=1)
-    diet_type = models.CharField(max_length=20, choices=Species.DIET_CHOICES, help_text="Preferred diet type for this enclosure")
+    diet_type = models.CharField(
+        max_length=20,
+        choices=Species.DIET_CHOICES,
+        help_text="Preferred diet type for this enclosure"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # ✅ Add this new field:
+    last_cleaned_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.get_diet_type_display()})"
@@ -34,6 +41,12 @@ class Enclosure(models.Model):
     @property
     def is_full(self):
         return self.current_occupancy >= self.capacity
+
+    @property
+    def needs_cleaning(self):
+        if not self.last_cleaned_at:
+            return True
+        return (timezone.now() - self.last_cleaned_at).total_seconds() > 168 * 3600
 
 class Animal(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

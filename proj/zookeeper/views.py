@@ -132,14 +132,14 @@ from django.contrib.auth.decorators import login_required
 # 5️⃣ Simple Map View — custom rectangular map grouped by diet
 @login_required
 def map_view(request):
-    animals = Animal.objects.select_related('species').order_by('name')
+    animals = Animal.objects.select_related('species', 'enclosure').order_by('name')
 
     herbivores = [a for a in animals if a.species and a.species.diet == 'herbivore']
     omnivores = [a for a in animals if a.species and a.species.diet == 'omnivore']
     carnivores = [a for a in animals if a.species and a.species.diet == 'carnivore']
 
-    # 🧩 Convert to simple dicts
-    def serialize(animal):
+    # 🧩 Serialize animal data
+    def serialize_animal(animal):
         return {
             'id': animal.id,
             'name': animal.name,
@@ -150,10 +150,20 @@ def map_view(request):
             'last_fed_at': animal.last_fed_at.isoformat() if animal.last_fed_at else None,
         }
 
+    # 🧹 Serialize enclosure data
+    def serialize_enclosure(enc):
+        return {
+            'id': enc.id,
+            'name': enc.name,
+            'diet_type': enc.diet_type,
+            'last_cleaned_at': enc.last_cleaned_at.isoformat() if getattr(enc, 'last_cleaned_at', None) else None,
+        }
+
     context = {
-        'herbivores': [serialize(a) for a in herbivores],
-        'omnivores': [serialize(a) for a in omnivores],
-        'carnivores': [serialize(a) for a in carnivores],
+        'herbivores': [serialize_animal(a) for a in herbivores],
+        'omnivores': [serialize_animal(a) for a in omnivores],
+        'carnivores': [serialize_animal(a) for a in carnivores],
+        'enclosures': [serialize_enclosure(e) for e in Enclosure.objects.all()],
     }
 
     return render(request, 'Zoo/map.html', context)
@@ -245,3 +255,18 @@ class EnclosureDeleteView(AdminRequiredMixin, DeleteView):
     success_url = reverse_lazy('admin_dashboard')
 
 
+def clean_enclosure(request, enclosure_id):
+    if request.method == 'POST':
+        enclosure = Enclosure.objects.get(id=enclosure_id)
+        enclosure.last_cleaned_at = timezone.now()
+        enclosure.save()
+
+        # If AJAX request, return JSON
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' or 'application/json' in request.headers.get('Accept', ''):
+            return JsonResponse({
+                'success': True,
+                'last_cleaned_at': enclosure.last_cleaned_at.isoformat()
+            })
+
+        # Otherwise, redirect like feed_view
+        return redirect('animal_detail', pk=enclosure.animal_set.first().pk)

@@ -170,13 +170,11 @@
 }
 
 #animalList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
-  gap: 12px;
+  gap: 20px;
+  padding: 10px;
 }
 
 #animalList li {
@@ -189,6 +187,45 @@
   min-width: 220px;
   max-width: 250px;
   text-align: center;
+}
+
+.enclosure-block {
+  background: #e5e7eb;
+  border-radius: 12px;
+  padding: 15px;
+  box-sizing: border-box;
+  margin: 0 auto; /* centers it */
+  max-width: 350px;
+}
+
+.enclosure-block h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3em;
+  color: #1f2937;
+}
+
+.clean-btn {
+  margin: 8px 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.clean-btn:hover { opacity: 0.9; }
+.clean-btn[disabled] {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.clean-status {
+  display: block;
+  font-size: 0.85em;
+  color: #6b7280;
+  margin-bottom: 10px;
 }
 
 .feed-btn {
@@ -208,12 +245,53 @@
   cursor: not-allowed;
 }
 .animal-text { display: block; margin-bottom: 4px; }
-.feed-status { display: block; font-weight: 500; color: #374151; margin-top: 4px; }
+.feed-status { display: block; font-weight: 500; color: #374151; margin-top: 4px; font-size: 0.85em; }
+
+    .modal-content {
+  /* make modal wider so 3 columns can fit comfortably on desktop */
+  max-width: 1100px; /* bump from 750px */
+}
+
+/* Stronger selector and !important to override global rules */
+.modal-content #animalList {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(220px, 1fr)) !important; /* three columns */
+  gap: 20px !important;
+  padding: 10px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  justify-items: center; /* center each enclosure inside its column */
+}
+
+/* Ensure enclosure blocks size correctly inside each grid cell */
+.modal-content #animalList .enclosure-block {
+  width: 100%;
+  max-width: 320px; /* keeps card from stretching too wide */
+  box-sizing: border-box;
+  margin: 0; /* grid handles spacing */
+}
+
+/* Responsive fallback: 2 columns under 1000px, 1 column under 640px */
+@media (max-width: 1000px) {
+  .modal-content #animalList {
+    grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
+  }
+}
+@media (max-width: 640px) {
+  .modal-content #animalList {
+    grid-template-columns: 1fr !important;
+  }
+
+  .modal-content {
+    max-width: 92vw; /* keep modal comfortably inside viewport on mobile */
+  }
+}
 </style>
 
 {{ herbivores|json_script:"herbivoreData" }}
 {{ omnivores|json_script:"omnivoreData" }}
 {{ carnivores|json_script:"carnivoreData" }}
+{{ enclosures|json_script:"enclosureData" }}
 
 <script>
 // Get CSRF token from cookie (Django standard)
@@ -243,8 +321,25 @@ async function refreshAllZones() {
   }
 }
 
+// ✅ Helper: refresh enclosure data after cleaning
+async function refreshEnclosureData() {
+  try {
+    const resp = await fetch(window.location.href, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const text = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    document.getElementById("enclosureData").textContent =
+      doc.getElementById("enclosureData").textContent;
+  } catch (err) {
+    console.error("Failed to refresh enclosure data:", err);
+  }
+}
+
 function showZone(type) {
   const data = JSON.parse(document.getElementById(type + 'Data').textContent);
+  const enclosures = JSON.parse(document.getElementById('enclosureData').textContent);
   const modal = document.getElementById('animalModal');
   const list = document.getElementById('animalList');
   const title = document.getElementById('modalTitle');
@@ -255,23 +350,100 @@ function showZone(type) {
   if (data.length === 0) {
     list.innerHTML = '<li>No animals found.</li>';
   } else {
+    // Group by enclosure name
+    const grouped = {};
     data.forEach(a => {
-      const li = document.createElement('li');
-      li.className = 'animal-item';
+      if (!grouped[a.enclosure]) grouped[a.enclosure] = [];
+      grouped[a.enclosure].push(a);
+    });
 
-      const info = document.createElement('span');
-      info.className = 'animal-text';
-      info.textContent = `${a.name} (${a.species}) — ${a.enclosure}`;
-      li.appendChild(info);
+    Object.keys(grouped).forEach(enclosureName => {
+      const enclosureInfo = enclosures.find(e => e.name === enclosureName);
+      const div = document.createElement('div');
+      div.className = 'enclosure-block';
 
-      if (a.can_feed) {
-        const btn = document.createElement('button');
-        btn.className = 'feed-btn';
-        btn.textContent = 'Feed';
-        btn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          btn.disabled = true;
-          btn.textContent = 'Feeding…';
+      const header = document.createElement('h3');
+      header.textContent = enclosureName;
+      div.appendChild(header);
+
+      // ✅ Add Clean button for enclosure
+      if (enclosureInfo) {
+        const cleanBtn = document.createElement('button');
+        cleanBtn.className = 'clean-btn';
+        cleanBtn.textContent = 'Clean Enclosure 🧽';
+
+        const status = document.createElement('small');
+        status.className = 'clean-status';
+        status.textContent = enclosureInfo.last_cleaned_at
+          ? `Last cleaned: ${new Date(enclosureInfo.last_cleaned_at).toLocaleString()}`
+          : 'Never cleaned';
+
+        cleanBtn.addEventListener('click', async () => {
+          cleanBtn.disabled = true;
+          cleanBtn.textContent = 'Cleaning...';
+          try {
+            const resp = await fetch(`/clean_enclosure/${enclosureInfo.id}/`, {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+              }
+            });
+            const json = await resp.json();
+            if (!json.success) throw new Error();
+
+            // ✅ Refresh the enclosure data
+            await refreshEnclosureData();
+
+            cleanBtn.textContent = 'Cleaned ✓';
+            status.textContent = `Last cleaned: ${json.last_cleaned_at ? new Date(json.last_cleaned_at).toLocaleString() : 'just now'}`;
+          } catch (err) {
+            cleanBtn.disabled = false;
+            cleanBtn.textContent = 'Clean Enclosure 🧽';
+            status.textContent = 'Cleaning failed. Try again.';
+          }
+        });
+
+        div.appendChild(cleanBtn);
+        div.appendChild(status);
+      }
+
+      // ✅ Add each animal with its own feed button
+      grouped[enclosureName].forEach(a => {
+        const li = document.createElement('li');
+
+        const animalText = document.createElement('span');
+        animalText.className = 'animal-text';
+        animalText.textContent = `${a.name} (${a.species})`;
+        li.appendChild(animalText);
+
+        // Feed status
+        const feedStatus = document.createElement('span');
+        feedStatus.className = 'feed-status';
+        const lastFed = a.last_fed_at ? new Date(a.last_fed_at) : null;
+        feedStatus.textContent = lastFed
+          ? `Last fed: ${lastFed.toLocaleString()}`
+          : 'Never fed';
+        li.appendChild(feedStatus);
+
+        // Feed button
+        const feedBtn = document.createElement('button');
+        feedBtn.className = 'feed-btn';
+        feedBtn.textContent = 'Feed 🍖';
+
+        // Check if fed within last 24 hours
+        if (lastFed) {
+          const hoursAgo = (new Date() - lastFed) / (1000 * 60 * 60);
+          if (hoursAgo < 24) {
+            feedBtn.disabled = true;
+            feedBtn.textContent = 'Already Fed ✓';
+          }
+        }
+
+        feedBtn.addEventListener('click', async () => {
+          feedBtn.disabled = true;
+          feedBtn.textContent = 'Feeding...';
           try {
             const resp = await fetch(a.feed_url, {
               method: 'POST',
@@ -281,27 +453,41 @@ function showZone(type) {
                 'Accept': 'application/json'
               }
             });
-            if (!resp.ok) throw new Error('Request failed');
-            const json = await resp.json();
-            btn.textContent = 'Fed ✓';
-            status.textContent = 'Last fed: just now';
-            a.last_fed_at = json.last_fed_at;
-            await refreshAllZones(); // ✅ refetch updated data
+
+            if (!resp.ok) {
+              throw new Error(`HTTP error! status: ${resp.status}`);
+            }
+
+            // Try to parse JSON, but if it fails, assume success if status is ok
+            let json;
+            try {
+              json = await resp.json();
+            } catch (e) {
+              // If response isn't JSON, but status was ok, treat as success
+              json = { success: true };
+            }
+
+            if (json.success === false) {
+              throw new Error('Server returned success: false');
+            }
+
+            await refreshAllZones();
+
+            feedBtn.textContent = 'Fed ✓';
+            feedStatus.textContent = 'Last fed: just now';
           } catch (err) {
-            btn.textContent = 'Feed';
-            btn.disabled = false;
-            status.textContent = 'Feeding failed. Please try again.';
+            console.error('Feed error:', err);
+            feedBtn.disabled = false;
+            feedBtn.textContent = 'Feed 🍖';
+            alert(`Failed to feed animal: ${err.message}`);
           }
         });
-        li.appendChild(btn);
-      }
 
-      const status = document.createElement('small');
-      status.className = 'feed-status';
-      status.textContent = a.last_fed_at ? `Last fed: ${new Date(a.last_fed_at).toLocaleString()}` : 'Never fed';
-      li.appendChild(status);
+        li.appendChild(feedBtn);
+        div.appendChild(li);
+      });
 
-      list.appendChild(li);
+      list.appendChild(div);
     });
   }
 
@@ -383,4 +569,3 @@ document.querySelectorAll(".zone-circle").forEach(zone => {
 
 </script>
 {% endblock %}
-
