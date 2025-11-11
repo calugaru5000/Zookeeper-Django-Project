@@ -12,29 +12,29 @@
             </div>
             {% if animals %}
             <div class="table-wrapper">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Species</th>
-                        <th>Enclosure</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for animal in animals %}
-                    <tr>
-                        <td>{{ animal.name }}</td>
-                        <td>{{ animal.species }}</td>
-                        <td>{{ animal.enclosure }}</td>
-                        <td>
-                            <a href="{% url 'animal_update' animal.pk %}" class="btn-small">Edit</a>
-                            <a href="{% url 'animal_delete' animal.pk %}" class="btn-small btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Species</th>
+                            <th>Enclosure</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for animal in animals %}
+                        <tr>
+                            <td>{{ animal.name }}</td>
+                            <td>{{ animal.species }}</td>
+                            <td>{{ animal.enclosure }}</td>
+                            <td>
+                                <a href="{% url 'animal_update' animal.pk %}" class="btn-small">Edit</a>
+                                <a href="{% url 'animal_delete' animal.pk %}" class="btn-small btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <p>No animals added yet.</p>
@@ -49,27 +49,27 @@
             </div>
             {% if species_list %}
             <div class="table-wrapper">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Diet</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for species in species_list %}
-                    <tr>
-                        <td>{{ species.name }}</td>
-                        <td>{{ species.get_diet_display }}</td>
-                        <td>
-                            <a href="{% url 'species_update' species.pk %}" class="btn-small">Edit</a>
-                            <a href="{% url 'species_delete' species.pk %}" class="btn-small btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Diet</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for species in species_list %}
+                        <tr>
+                            <td>{{ species.name }}</td>
+                            <td>{{ species.get_diet_display }}</td>
+                            <td>
+                                <a href="{% url 'species_update' species.pk %}" class="btn-small">Edit</a>
+                                <a href="{% url 'species_delete' species.pk %}" class="btn-small btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <p>No species added yet.</p>
@@ -84,31 +84,31 @@
             </div>
             {% if enclosures %}
             <div class="table-wrapper">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Diet Type</th>
-                        <th>Capacity</th>
-                        <th>Occupancy</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for enclosure in enclosures %}
-                    <tr>
-                        <td>{{ enclosure.name }}</td>
-                        <td>{{ enclosure.get_diet_type_display }}</td>
-                        <td>{{ enclosure.capacity }}</td>
-                        <td>{{ enclosure.current_occupancy }}/{{ enclosure.capacity }}</td>
-                        <td>
-                            <a href="{% url 'enclosure_update' enclosure.pk %}" class="btn-small">Edit</a>
-                            <a href="{% url 'enclosure_delete' enclosure.pk %}" class="btn-small btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Diet Type</th>
+                            <th>Capacity</th>
+                            <th>Occupancy</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enclosure in enclosures %}
+                        <tr>
+                            <td>{{ enclosure.name }}</td>
+                            <td>{{ enclosure.get_diet_type_display }}</td>
+                            <td>{{ enclosure.capacity }}</td>
+                            <td>{{ enclosure.current_occupancy }}/{{ enclosure.capacity }}</td>
+                            <td>
+                                <a href="{% url 'enclosure_update' enclosure.pk %}" class="btn-small">Edit</a>
+                                <a href="{% url 'enclosure_delete' enclosure.pk %}" class="btn-small btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <p>No enclosures added yet.</p>
@@ -123,32 +123,73 @@
             </div>
             {% if users %}
             <div class="table-wrapper">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Staff Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.is_staff|yesno:"Yes,No" }}</td>
-                        <td>
-                            <a href="{% url 'user_update' user.pk %}" class="btn-small">Edit</a>
-                            <a href="{% url 'user_delete' user.pk %}" class="btn-small btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Staff Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.is_staff|yesno:"Yes,No" }}</td>
+                            <td>
+                                <a href="{% url 'user_update' user.pk %}" class="btn-small">Edit</a>
+                                <a href="{% url 'user_delete' user.pk %}" class="btn-small btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <p>No users found.</p>
+            {% endif %}
+        </section>
+
+        <!-- Staff Roles Section -->
+        <section class="admin-section">
+            <h2>Staff Roles Management</h2>
+            <div class="admin-actions">
+                <a href="{% url 'staff_role_create' %}" class="btn">Assign New Staff Role</a>
+            </div>
+            {% if staff_roles %}
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Enclosure</th>
+                            <th>Role</th>
+                            <th>Assigned At</th>
+                            <th>Assigned By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for role in staff_roles %}
+                        <tr>
+                            <td>{{ role.user.username }}</td>
+                            <td>{{ role.enclosure.name }}</td>
+                            <td>{{ role.get_role_display }}</td>
+                            <td>{{ role.assigned_at|date:"Y-m-d H:i" }}</td>
+                            <td>{{ role.assigned_by.username }}</td>
+                            <td>
+                                <a href="{% url 'staff_role_update' role.pk %}" class="btn-small">Edit</a>
+                                <a href="{% url 'staff_role_delete' role.pk %}" class="btn-small btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No staff roles assigned yet.</p>
             {% endif %}
         </section>
     </div>

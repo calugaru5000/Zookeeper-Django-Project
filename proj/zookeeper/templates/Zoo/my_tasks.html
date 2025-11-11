@@ -1,0 +1,153 @@
+{% extends 'Zoo/base.html' %} {% block content %}
+<h1>My Tasks</h1>
+
+<div class="tabs">
+    <button class="tablink" onclick="openTab(event, 'feedings')" id="defaultOpen">Assigned Feedings</button>
+    <button class="tablink" onclick="openTab(event, 'cleanings')">Assigned Cleanings</button>
+    <button class="tablink" onclick="openTab(event, 'outside')">Outside Roles</button>
+</div>
+
+<div id="feedings" class="tabcontent">
+    <h2>Assigned Feedings</h2>
+    {% if animal_tasks %}
+    <ul class="task-list">
+        {% for t in animal_tasks %}
+        <li>
+            <strong>{{ t.animal.name }}</strong> — {{ t.animal.species.name }} ({{ t.animal.enclosure.name }}) {% if t.can_feed %}
+            <form action="{% url 'animal_feed' t.animal.id %}" method="post" style="display:inline; margin-left:1rem;">
+                {% csrf_token %}
+                <button type="submit" class="btn">Mark as Fed</button>
+            </form>
+            {% else %}
+            <span class="muted">(No permission to feed)</span> {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No feeding tasks assigned.</p>
+    {% endif %}
+</div>
+
+<div id="cleanings" class="tabcontent">
+    <h2>Assigned Cleanings</h2>
+    {% if cleaning_tasks %}
+    <ul class="task-list">
+        {% for t in cleaning_tasks %}
+        <li>
+            <strong>{{ t.enclosure.name }}</strong> — Last cleaned: {{ t.enclosure.last_cleaned_at|default:'Never' }} {% if t.can_clean %}
+            <form action="{% url 'clean_enclosure' t.enclosure.id %}" method="post" style="display:inline; margin-left:1rem;">
+                {% csrf_token %}
+                <button type="submit" class="btn">Mark as Cleaned</button>
+            </form>
+            {% else %}
+            <span class="muted">(No permission to clean)</span> {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No cleaning tasks assigned.</p>
+    {% endif %}
+</div>
+
+<div id="outside" class="tabcontent">
+    <h2>Outside Your Assigned Roles</h2>
+    <div class="subtabs">
+        <button class="subtablink" onclick="openSubTab(event, 'outside', 'outside-feedings')" id="defaultOutsideFeed">Outside Feedings</button>
+        <button class="subtablink" onclick="openSubTab(event, 'outside', 'outside-cleanings')">Outside Cleanings</button>
+    </div>
+
+    <div id="outside-feedings" class="subtabcontent">
+        <h3>Animals needing feeding outside your enclosures</h3>
+        {% if outside_animal_tasks %}
+        <ul class="task-list">
+            {% for t in outside_animal_tasks %}
+            <li>
+                <strong>{{ t.animal.name }}</strong> — {{ t.animal.species.name }} ({{ t.enclosure.name }}) {% if t.is_unassigned %}
+                <span class="muted">(unassigned)</span> {% endif %} {% if t.can_feed %}
+                <form action="{% url 'animal_feed' t.animal.id %}" method="post" style="display:inline; margin-left:1rem;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Feed</button>
+                </form>
+                {% else %}
+                <span class="muted">(No permission to feed)</span> {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No outside feeding tasks.</p>
+        {% endif %}
+    </div>
+
+    <div id="outside-cleanings" class="subtabcontent">
+        <h3>Enclosures needing cleaning outside your enclosures</h3>
+        {% if outside_cleaning_tasks %}
+        <ul class="task-list">
+            {% for t in outside_cleaning_tasks %}
+            <li>
+                <strong>{{ t.enclosure.name }}</strong> — Last cleaned: {{ t.enclosure.last_cleaned_at|default:'Never' }} {% if t.is_unassigned %}
+                <span class="muted">(unassigned)</span> {% endif %} {% if t.can_clean %}
+                <form action="{% url 'clean_enclosure' t.enclosure.id %}" method="post" style="display:inline; margin-left:1rem;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Clean</button>
+                </form>
+                {% else %}
+                <span class="muted">(No permission to clean)</span> {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No outside cleaning tasks.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Open default tab
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("defaultOpen").click();
+        // Open default sub-tab inside Outside
+        var defaultOutside = document.getElementById("defaultOutsideFeed");
+        if (defaultOutside) {
+            defaultOutside.click();
+        }
+    });
+
+    function openSubTab(evt, parentId, tabName) {
+        // Hide all subtabcontent inside the parent tab
+        var parent = document.getElementById(parentId);
+        if (!parent) {
+            // Fallback: just toggle by id
+            var subcontents = document.getElementsByClassName('subtabcontent');
+        } else {
+            var subcontents = parent.getElementsByClassName('subtabcontent');
+        }
+        for (var i = 0; i < subcontents.length; i++) {
+            subcontents[i].style.display = 'none';
+        }
+        // remove active from subtab links
+        var sublinks = document.getElementsByClassName('subtablink');
+        for (var i = 0; i < sublinks.length; i++) {
+            sublinks[i].className = sublinks[i].className.replace(' active', '');
+        }
+        // show the requested subtab
+        var el = document.getElementById(tabName);
+        if (el) el.style.display = 'block';
+        evt.currentTarget.className += ' active';
+    }
+</script>
+
+{% endblock %}

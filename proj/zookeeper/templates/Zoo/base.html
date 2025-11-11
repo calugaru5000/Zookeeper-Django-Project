@@ -14,9 +14,9 @@
                 <div class="nav-margin">
                     <a href="{% url 'animals_list' %}" class="nav-link">Animals</a>
                     <a href="{% url 'zoo_map' %}" class="nav-link">Map</a>
-                    <a href="{% url 'animal_create' %}" class="nav-link">Add Animal</a> {% if user.is_authenticated %}
-                    {% if user.is_staff %}
-                    <a href="{% url 'admin_dashboard' %}" class="nav-link">Admin</a> {% endif %} {% endif %}
+                    <a href="{% url 'animal_create' %}" class="nav-link">Add Animal</a> {% if user.is_authenticated %} {% if user.is_staff or user.staff_roles.all %}
+                    <a href="{% url 'admin_dashboard' %}" class="nav-link">Admin</a> {% endif %} {% if user.is_authenticated and user.staff_roles.all %}
+                    <a href="{% url 'my_tasks' %}" class="nav-link">My Tasks</a> {% endif %} {% endif %}
                 </div>
                 <div>
                     {% if user.is_authenticated %}
@@ -26,7 +26,7 @@
                     </form>
                     {% else %}
                     <div class="logout-form">
-                    <a href="{% url 'login' %}" class="nav-link nav-login">Login</a> {% endif %}
+                        <a href="{% url 'login' %}" class="nav-link nav-login">Login</a> {% endif %}
                     </div>
                 </div>
             </div>
@@ -39,4 +39,5 @@
     </main>
 </body>
 <link rel="stylesheet" type="text/css" href="{% static 'zookeeper/styles.css' %}?v=999">
+
 </html>

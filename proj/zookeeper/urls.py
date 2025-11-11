@@ -29,5 +29,13 @@ urlpatterns = [
     path('users/create/', views.UserCreateView.as_view(), name='user_create'),
     path('users/<int:pk>/update/', views.UserUpdateView.as_view(), name='user_update'),
     path('users/<int:pk>/delete/', views.UserDeleteView.as_view(), name='user_delete'),
+    
+    # Staff Role Management
+    path('staff-roles/create/', views.StaffRoleCreateView.as_view(), name='staff_role_create'),
+    path('staff-roles/<int:pk>/update/', views.StaffRoleUpdateView.as_view(), name='staff_role_update'),
+    path('staff-roles/<int:pk>/delete/', views.StaffRoleDeleteView.as_view(), name='staff_role_delete'),
+    # My Tasks
+    path('my-tasks/', views.MyTasksView.as_view(), name='my_tasks'),
+    
     path('clean_enclosure/<int:enclosure_id>/', views.clean_enclosure, name='clean_enclosure'),
 ]
